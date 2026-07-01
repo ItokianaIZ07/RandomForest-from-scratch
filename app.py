@@ -7,6 +7,14 @@ from model.forest import RandomForest
 import pandas as pd
 import joblib
 
+def getPredictionResult(model, data):
+    if isinstance(model, DecisionTree):
+        prediction = model.predict(data)
+        return 1 if prediction.count(1) > prediction.count(0) else 0
+    elif isinstance(model, RandomForest):
+        prediction = model.predict(data).values
+        return 1 if len(prediction[prediction == 1]) > len(prediction[prediction == 0]) else 0
+
 dataProcessing = DataProcessing()
 
 
@@ -37,10 +45,11 @@ data = dataProcessing.numeriseDonnee(img)
 # model = joblib.load("./model/modele_arbre_decision.pkl")
 model = joblib.load("./model/modele_foret.pkl")
 
-prediction = model.predict(data).values
+prediction = getPredictionResult(model, data)
+# prediction_arbre = model.predict(data)
 y_prediction = model.predict(X_test)
 
 f1 = f1_score(y_test, y_prediction)
 
 print("Score du modèle", f1)
-print("Cette plante est malade" if prediction.sum() == 1 else "Cette plante est saine")
+print("Cette plante est malade" if prediction == 1 else "Cette plante est saine")
