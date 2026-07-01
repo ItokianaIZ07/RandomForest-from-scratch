@@ -1,4 +1,3 @@
-import pandas as pd
 import math
 
 class Noeud:
@@ -51,20 +50,16 @@ class DecisionTree:
         predictions = []
 
         for _, ligne in X.iterrows():
-            predictions.append(self.__predict_once(ligne))
+            predictions.append(self.__predict_one(ligne))
 
         sain_parmiX = predictions.count(0)
         malade_parmiX = predictions.count(1)
-        
-        #
 
         return predictions
 
-        #
+        # return 0 if sain_parmiX > malade_parmiX else 1
 
-        return 0 if sain_parmiX > malade_parmiX else 1
-
-    def __predict_once(self, x):
+    def __predict_one(self, x):
         noeud = self.racine
 
         while noeud.prediction is None:

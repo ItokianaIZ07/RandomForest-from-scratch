@@ -1,4 +1,5 @@
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score, mean_squared_error
 
 from processing.process import DataProcessing
 from model.tree import DecisionTree
@@ -36,6 +37,10 @@ data = dataProcessing.numeriseDonnee(img)
 # model = joblib.load("./model/modele_arbre_decision.pkl")
 model = joblib.load("./model/modele_foret.pkl")
 
-prediction = model.predict(data)
+prediction = model.predict(data).values
+y_prediction = model.predict(X_test)
 
-print("Cette plante est malade" if prediction == 1 else "Cette plante est saine")
+f1 = f1_score(y_test, y_prediction)
+
+print("Score du modèle", f1)
+print("Cette plante est malade" if prediction.sum() == 1 else "Cette plante est saine")

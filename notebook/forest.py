@@ -1,4 +1,4 @@
-from model.tree import DecisionTree
+from tree import DecisionTree
 import numpy as np
 import pandas as pd
 
@@ -28,13 +28,11 @@ class RandomForest:
         for tree in self.trees:
             predictions.append(self.__predict_once(X, tree))
 
-        #
-
         predictions = np.array(predictions)
-
         final_predictions = []
-    
-        num_individus = X.shape[0] 
+
+        num_individus = X.shape[0]
+
         for i in range(num_individus):
             preidction_i_colonne = predictions[:, i]
             
@@ -45,11 +43,12 @@ class RandomForest:
             final_predictions.append(vote_final)
 
         return pd.Series(final_predictions)
-    #
 
-        sain_parmiX = predictions.count(0)
-        malade_parmiX = predictions.count(1)
-        return 0 if sain_parmiX > malade_parmiX else 1
+        # sain_parmiX = predictions.count(0)
+        # malade_parmiX = predictions.count(1)
+
+
+        # return 0 if sain_parmiX > malade_parmiX else 1
 
     def __predict_once(self, X, tree: DecisionTree):
         return tree.predict(X)
